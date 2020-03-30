@@ -20,7 +20,7 @@ final class NotesViewModel: NotesViewModelProtocol {
             viewDelegate?.updateUI()
         }
     }
-    var noteImageCache: [NoteImageCache] = []
+    private var noteImageCache: [Int: NoteImageCache] = [:]
     private var notes: [Note]?
     private var reachability: Reachability?
     private var gettingNotes = false
@@ -80,6 +80,19 @@ final class NotesViewModel: NotesViewModelProtocol {
         viewDelegate?.scrollTableViewToBottom()
     }
     
+    func getNoteImageCache(at indexRow: Int, imagePath: String) -> NoteImageCache {
+        guard let imageCacheStored = noteImageCache[indexRow] else {
+            let imageCache = NoteImageCache(id: indexRow, imagePath: imagePath)
+            noteImageCache[indexRow] = imageCache
+            return imageCache
+        }
+        return imageCacheStored
+    }
+    
+    func removeAllNoteImageCache() {
+        noteImageCache.removeAll()
+    }
+    
     // MARK: - Private Functions
     
     private func getAllNotes() {
@@ -120,7 +133,6 @@ final class NotesViewModel: NotesViewModelProtocol {
         viewState = .loading
         
         let syncGroup = DispatchGroup()
-        
         for note in notesToUpload {
             syncGroup.enter()
             
@@ -138,7 +150,6 @@ final class NotesViewModel: NotesViewModelProtocol {
                 }
             }
         }
-        
         syncGroup.notify(queue: DispatchQueue.main) { [weak self] in
             self?.uploadingNotes = false
             self?.getAllNotes()

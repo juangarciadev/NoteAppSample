@@ -36,7 +36,7 @@ final class NotesViewController: UITableViewController, NotesViewDelegate {
     
     func updateUI() {
         // Restart cache.
-        viewModel.noteImageCache.removeAll()
+        viewModel.removeAllNoteImageCache()
         tableView.reloadData()
     }
     
@@ -115,26 +115,9 @@ extension NotesViewController {
                 dotIndicatorState = note.uploaded ? .created : .loading
             }
             
-            // TODO: Refactor this code.
             if !note.imagePath.isEmpty {
-                var cache: NoteImageCache?
-                var image: UIImage?
-                for imageCacheStored in viewModel.noteImageCache {
-                    if imageCacheStored.id == indexPath.row {
-                        cache = imageCacheStored
-                        image = cache?.imageStoredLocally
-                        break
-                    }
-                }
-                if cache == nil {
-                    cache = NoteImageCache(id: indexPath.row, imagePath: note.imagePath)
-                    if let imageCache = cache {
-                        image = imageCache.imageStoredLocally
-                        viewModel.noteImageCache.append(imageCache)
-                    }
-                }
-                
-                cell.update(image: image,
+                let noteImageCache = viewModel.getNoteImageCache(at: indexPath.row, imagePath: note.imagePath)
+                cell.update(image: noteImageCache.imageStoredLocally,
                             title: note.title,
                             dotIndicatorState: dotIndicatorState)
             } else {

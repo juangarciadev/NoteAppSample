@@ -18,9 +18,6 @@ protocol NotesViewModelProtocol: class {
     /// The coordinator.
     var coordinator: NotesCoordinatorProtocol? { get set }
     
-    /// Note image cache.
-    var noteImageCache: [NoteImageCache] { get set}
-
     /// The view has been loaded
     func viewDidLoad()
 
@@ -49,6 +46,17 @@ protocol NotesViewModelProtocol: class {
     
     /// Note created.
     func noteCreated()
+    
+    /// Get note image cache.
+    ///
+    /// - Parameters:
+    ///   - indexRow: The row to obtain the note for.
+    ///   - imagePath: The image file path.
+    /// - Returns: An NoteImageCache object.
+    func getNoteImageCache(at indexRow: Int, imagePath: String) -> NoteImageCache
+    
+    /// Removes all  noteimage cache.
+    func removeAllNoteImageCache()
 }
 
 /// View state options.
