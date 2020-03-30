@@ -135,7 +135,6 @@ final class NotesViewModel: NotesViewModelProtocol {
         let syncGroup = DispatchGroup()
         for note in notesToUpload {
             syncGroup.enter()
-            
             if note.imageId.isEmpty {
                 let fileManager = FileManager.default
                 if let filePath = fileManager.filePath(forKey: note.imagePath),

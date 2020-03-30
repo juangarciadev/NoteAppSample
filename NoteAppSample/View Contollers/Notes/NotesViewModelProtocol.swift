@@ -55,7 +55,7 @@ protocol NotesViewModelProtocol: class {
     /// - Returns: An NoteImageCache object.
     func getNoteImageCache(at indexRow: Int, imagePath: String) -> NoteImageCache
     
-    /// Removes all  noteimage cache.
+    /// Removes all  note image cache.
     func removeAllNoteImageCache()
 }
 

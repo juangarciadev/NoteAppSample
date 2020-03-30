@@ -50,7 +50,6 @@ struct BaseAPI {
                             method: HTTPMethod = .post,
                             headers: HTTPHeaders? = [:],
                             _ completion: @escaping (AFDataResponse<Any>) -> Void) {
-        
         _ = AF.upload(multipartFormData: { multipart in
             multipart.append(data,
                              withName: GlobalConfiguration.imageName,

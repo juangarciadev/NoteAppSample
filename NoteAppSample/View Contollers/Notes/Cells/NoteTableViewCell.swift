@@ -188,7 +188,7 @@ final class NoteTableViewCell: UITableViewCell {
     }
 }
 
-/// Not dot indicator view state.
+/// Note dot indicator view state.
 enum NoteDotIndicatorState {
     case created
     case error

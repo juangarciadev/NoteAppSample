@@ -84,6 +84,7 @@ struct NoteStore {
     }
 }
 
+/// Note store error.
 enum NoteStoreError: Error {
     case documentDirectoryUnavailable
 }
