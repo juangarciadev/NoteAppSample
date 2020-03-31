@@ -128,7 +128,7 @@ final class NotesViewModel: NotesViewModelProtocol {
     }
     
     private func syncNotes() {
-        // Sync  notes between local and remote data base.
+        // Sync notes between local and remote data base.
         guard let notesToUpload = NoteStore.notesToUpload(),
             notesToUpload.count > 0,
             !uploadingNotes else {
