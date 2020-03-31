@@ -27,8 +27,7 @@ struct NoteStore {
         }
     }
     
-    static func saveNotes(from responseData: Data) throws {
-        let notes = try JSONDecoder().decode([Note].self, from: responseData)
+    static func save(_ notes: [Note]) throws {
         let realm = try Realm()
         try realm.write {
             realm.add(notes, update: .modified)

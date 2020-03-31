@@ -21,7 +21,7 @@ struct NoteAPI {
     ///
     /// - Parameters:
     ///   - completion: Call-back upon successful response.
-    static func getAllNotes(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    static func getAllNotes(_ completion: @escaping (Result<[Note], Error>) -> Void) {
         guard let getAllNoteURL = GlobalConfiguration.getAllNoteURL else {
             completion(.failure(NetworkError.badURL))
             assertionFailure("Invalid URL")
@@ -35,8 +35,8 @@ struct NoteAPI {
                     return
                 }
                 do {
-                    try NoteStore.saveNotes(from: responseData)
-                    completion(.success(Void()))
+                    let notes = try JSONDecoder().decode([Note].self, from: responseData)
+                    completion(.success(notes))
                 } catch {
                     completion(.failure(error))
                 }
@@ -57,7 +57,6 @@ struct NoteAPI {
             assertionFailure("Invalid URL")
             return
         }
-        
         BaseAPI.uploadImage(data: imageData,
                             url: uploadImageNoteURL) { response in
                                 switch response.result {

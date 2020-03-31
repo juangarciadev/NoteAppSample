@@ -38,7 +38,7 @@ final class NotesViewModel: NotesViewModelProtocol {
         // Load note stored.
         try? addReachabilityObserver()
         getAllNotes()
-        updateStoredNotes(reloadTable: true)
+        updateStoredNotes()
     }
     
     func showCreateNoteView() {
@@ -75,9 +75,9 @@ final class NotesViewModel: NotesViewModelProtocol {
     
     func noteCreated() {
         // Notice: Reload the table view before call `scrollTableViewToBottom`.
-        updateStoredNotes(reloadTable: true)
-        getAllNotes()
+        updateStoredNotes()
         viewDelegate?.scrollTableViewToBottom()
+        getAllNotes()
     }
     
     func getNoteImageCache(at indexRow: Int, imagePath: String) -> NoteImageCache {
@@ -109,14 +109,19 @@ final class NotesViewModel: NotesViewModelProtocol {
         syncNotes()
         NoteAPI.getAllNotes { [weak self] result in
             switch result {
-            case .success():
-                self?.updateStoredNotes(reloadTable: false)
+            case .success(let notes):
+                do {
+                    try NoteStore.save(notes)
+                    self?.notes = notes
+                } catch {
+                    assertionFailure("This should never happen - Error: \(error)")
+                }
             case .failure(let error):
                 // TODO: Implement an error logger.
                 print(error)
             }
-            if let uploadingNotes = self?.uploadingNotes {
-                self?.viewState = uploadingNotes ? .loading : .view
+            if let uploadingNotes = self?.uploadingNotes, !uploadingNotes {
+                self?.viewState = .view
             }
             self?.gettingNotes = false
         }
@@ -179,11 +184,9 @@ final class NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    private func updateStoredNotes(reloadTable: Bool) {
+    private func updateStoredNotes() {
         notes = NoteStore.notes()
-        if reloadTable {
-            viewDelegate?.updateUI()
-        }
+        viewDelegate?.updateUI()
     }
     
     private func addReachabilityObserver() throws {
