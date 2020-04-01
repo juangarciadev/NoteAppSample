@@ -29,3 +29,9 @@ Time spent: 16 hrs
 ## Walkthrough
 ![test](https://raw.githubusercontent.com/juangarciadev/NoteAppSample/master/Screenshots/Notes%20Screen.png)
 ![test](https://raw.githubusercontent.com/juangarciadev/NoteAppSample/master/Screenshots/Create%20Note%20Screen.png)
+
+## Author
+Juan Garcia, juansftdev@gmail.com
+
+## License
+This framework is available under the MIT license. See the LICENSE file for more info.
