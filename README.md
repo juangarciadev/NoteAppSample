@@ -34,4 +34,4 @@ Time spent: 16 hrs
 Juan Garcia, juansftdev@gmail.com
 
 ## License
-This framework is available under the MIT license. See the LICENSE file for more info.
+This project is available under the MIT license. See the LICENSE file for more info.
