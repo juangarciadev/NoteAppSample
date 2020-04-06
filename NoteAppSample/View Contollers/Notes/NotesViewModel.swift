@@ -77,7 +77,7 @@ final class NotesViewModel: NotesViewModelProtocol {
         // Notice: Reload the table view before call `scrollTableViewToBottom`.
         updateStoredNotes()
         viewDelegate?.scrollTableViewToBottom()
-        getAllNotes()
+        syncNotes()
     }
     
     func getNoteImageCache(at indexRow: Int, imagePath: String) -> NoteImageCache {
